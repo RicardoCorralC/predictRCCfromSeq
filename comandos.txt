@@ -1,0 +1,7 @@
+python makeTransformedSeqDataset.py CathDomainSeqs.ATOM.v4.0.0 2 3_20_14_10 CATHFINAL.txt
+python makeUnifiedDatasets.py transformedSeqDataset_2.txt CATHFINAL.txt
+python vect26FromSeq.py SEQS_2281725600.txt VECS_2281725600.txt DOMS_2281725600.txt
+python make_final_training_datasets.py transformedSeqDataset_2.txt predictedVectors_2281725600.txt C
+ATHFINAL.txt
+python train_and_save_clf.py trainable_26dreal_2.txt 3
+python getMissingClassAccuracy.py CathDomainsSeqs_TESTING_3_20_14_10txt 3_20_14_10
