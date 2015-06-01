@@ -3,3 +3,5 @@ VEC*
 DOM*
 trainable*
 transformed*
+*.pyc
+*.p

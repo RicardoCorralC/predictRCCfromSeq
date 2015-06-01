@@ -1,9 +1,8 @@
 import sys
 import random
 
-if __name__ == '__main__':
-	seqsFN = sys.argv[1] #transformedSeqDataset_X.txt
-	vecsFN = sys.argv[2] #CATHALL.txt
+def main_exec(seqsFN='transformedSeqDataset_2.txt',vecsFN='CATHALL.txt'):
+
 	seqsFIN = open(seqsFN,'r')
 	vecsFIN = open(vecsFN,'r')
 
@@ -31,4 +30,12 @@ if __name__ == '__main__':
 
 	print 'finished with ID', uniqueID
 
+	return uniqueID
 
+def main():
+	seqsFN = sys.argv[1] #transformedSeqDataset_X.txt
+	vecsFN = sys.argv[2] #CATHALL.txt
+	main_exec(seqsFN=seqsFN,vecsFN=vecsFN)
+
+if __name__ == '__main__':
+	main()

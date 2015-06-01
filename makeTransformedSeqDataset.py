@@ -3,14 +3,12 @@ import sys
 import cPickle as pickle
 
 
-def main():
-	FILENAME = sys.argv[1] #CathDomainSeqs.ATOM.v3.5.0
-	COMBLENGTH = sys.argv[2]
+
+def main_exec(FILENAME='CathDomainSeqs.ATOM.v4.0.0',COMBLENGTH=2,SKIPCLASS='3_20_20',CATHVDBNAME='CATHFINAL.txt',aaGroupingList='F_Ic4list'):
+
 	f = open(FILENAME,'r')
 
 
-	SKIPCLASS = sys.argv[3].strip() #If None, no class is skipped, example 2 or 2_3, or 2_4_5,..
-	CATHVDBNAME = sys.argv[4]
 	avoidDomains = set() #will contains domains belonging to class SKIPCLASS
 
 	if SKIPCLASS != 'None':
@@ -24,7 +22,7 @@ def main():
 				avoidDomains.add(domname)
 		fin.close()
 
-	_seqVectorizer = seqVectorizer.seqVectorizer(comblength=int(COMBLENGTH),aaGroupingList='F_Ic4list',verbose=True)
+	_seqVectorizer = seqVectorizer.seqVectorizer(comblength=int(COMBLENGTH),aaGroupingList=aaGroupingList,verbose=True)
 
 	domainNames = []
 	seqs = []
@@ -59,6 +57,16 @@ def main():
 	for i in xrange(len(transformedSeqs)):
 		sres = ','.join([str(x) for x in transformedSeqs[i]])
 		fout.write('%s,%s\n' % (domainNames[i],sres))
+
+
+def main():
+	FILENAME = sys.argv[1] #CathDomainSeqs.ATOM.v3.5.0
+	COMBLENGTH = sys.argv[2]
+	SKIPCLASS = sys.argv[3].strip() #If None, no class is skipped, example 2 or 2_3, or 2_4_5,..
+	CATHVDBNAME = sys.argv[4] # CATHFINAL.txt
+	main_exec(FILENAME=FILENAME,COMBLENGTH=COMBLENGTH,SKIPCLASS=SKIPCLASS,CATHVDBNAME=CATHVDBNAME)
+
+
 
 if __name__ == '__main__':
 	main()
