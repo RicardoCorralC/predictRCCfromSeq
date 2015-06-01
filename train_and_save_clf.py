@@ -29,7 +29,7 @@ def main_exec(fn,level,seqflag):
 	V = np.asarray(V)
 	C = np.asarray(C).ravel()
 
-	clf = RandomForestClassifier(n_estimators=15,n_jobs=2)
+	clf = RandomForestClassifier(n_estimators=15,n_jobs=2,verbose=1)
 	clf.fit(V,C)
 
 	if seqflag:
