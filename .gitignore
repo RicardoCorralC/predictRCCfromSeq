@@ -5,3 +5,4 @@ trainable*
 transformed*
 *.pyc
 *.p
+predictedVectors_*
