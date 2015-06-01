@@ -4,5 +4,8 @@ DOM*
 trainable*
 transformed*
 *.pyc
-*.p
+seqVectorizerObj.p
+v26ClassPredictorObj.p
+v26ClassPredictorSEQObj.p
+v26FSObj.p
 predictedVectors_*
