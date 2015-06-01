@@ -5,6 +5,7 @@ from sklearn import cross_validation
 from sklearn import preprocessing
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.kernel_approximation import Nystroem
 import cPickle as pickle
 
@@ -29,7 +30,7 @@ def main_exec(fn,level,seqflag):
 	V = np.asarray(V)
 	C = np.asarray(C).ravel()
 
-	clf = RandomForestClassifier(n_estimators=15,n_jobs=2,verbose=1)
+	clf = ExtraTreesClassifier(n_estimators=15,n_jobs=2,verbose=1)
 	clf.fit(V,C)
 
 	if seqflag:

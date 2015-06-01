@@ -29,7 +29,7 @@ class vect26FromSeq(object):
 
 		#						( 'classifier', LogisticRegression() )] )
 
-		_clf = LogisticRegression()#(n_estimators=4)
+		_clf = ExtraTreesClassifier(n_estimators=15,n_jobs=3,verbose=1)#LogisticRegression()#(n_estimators=4)
 		self.classifiers = [copy.deepcopy(_clf) for i in xrange(DIMS)]
 
 	def fit(self,rawTransformedSeqs,vectors26):
