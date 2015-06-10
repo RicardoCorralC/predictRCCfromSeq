@@ -32,9 +32,11 @@ plt.ylim(0,1.2)
 plt.grid()
 plt.scatter(difficulties,RCCaccs,color='#2E9AFE',label='RCC',s=100,edgecolor='#084B8A')
 #plt.scatter(difficulties,SEQaccs,color='#FE642E',label='SEQ',s=100,edgecolor='#B40404')
-plt.xlabel('difficulty')
-plt.ylabel('accuracy')
+plt.xlabel('difficulty',fontsize=20)
+plt.ylabel('accuracy',fontsize=20)
 plt.legend()
+
+plt.savefig("RCCaccScatterTIMs.png",dpi=150)
 
 #Linear regression
 
