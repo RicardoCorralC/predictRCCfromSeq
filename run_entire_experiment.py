@@ -11,7 +11,6 @@ def get_hs(cathfile='CATHFINAL.txt'):
     for l in open(cathfile,'r'):
         ll = l.strip().split(',')
         _h = ll[-1]
-        print _h
         hs.add(_h)
     return list(hs)
 
@@ -24,5 +23,8 @@ def run_experiment(hslist=[]):
             computeACCdroppingFamily.main_exec(familyToDrop=familyToDrop)
 
 if __name__ == '__main__':
+    print '\ngetting Hs'
     hslist = get_hs()
+    print 'done\n'
+    print 'running experiment..'
     run_experiment(hslist=hslist)
