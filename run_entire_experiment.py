@@ -15,9 +15,11 @@ def get_hs(cathfile='CATHFINAL.txt'):
     return list(hs)
 
 def run_experiment(hslist=[]):
+    print '\nopening DB connection...'
     client = MongoClient(MONGODB_URI)
     db = client.get_default_database()
     collection = db[collection_name]
+    print 'done\n'
     for h in hslist:
         if not collection.find_one({'droppedfam':h}):
             computeACCdroppingFamily.main_exec(familyToDrop=familyToDrop)
