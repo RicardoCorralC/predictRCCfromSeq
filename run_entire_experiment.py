@@ -22,6 +22,7 @@ def run_experiment(hslist=[]):
     print 'done\n'
     for h in hslist:
         if not collection.find_one({'droppedfam':h}):
+            print 'starting experiment for ', familyToDrop
             computeACCdroppingFamily.main_exec(familyToDrop=familyToDrop)
 
 if __name__ == '__main__':
