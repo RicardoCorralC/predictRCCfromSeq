@@ -68,8 +68,8 @@ def main_exec(CathDomainSeqsATOM='CathDomainSeqs.ATOM.v4.0.0',
 
 
 
-    make_final_training_datasets.main_exec(rawfn='transformedSeqDataset_'+combLength+'.txt',
-                                            predfn='predictedVectors_'+uniqueID+'.txt',
+    make_final_training_datasets.main_exec(rawfn='transformedSeqDataset_'+str(combLength)+'.txt',
+                                            predfn='predictedVectors_'+str(uniqueID)+'.txt',
                                             realvfn=CATHv26DB,
                                             id=uniqueID)
 
@@ -81,11 +81,11 @@ def main_exec(CathDomainSeqsATOM='CathDomainSeqs.ATOM.v4.0.0',
 
 
 
-    train_and_save_clf.main_exec(fn='trainable_26dpredicted_'+uniqueID+'.txt',level=testTrainingLevel,seqflag=0)
+    train_and_save_clf.main_exec(fn='trainable_26dpredicted_'+str(uniqueID)+'.txt',level=testTrainingLevel,seqflag=0)
     print '\n*** Finished [train_and_save_clf for v26predicted]'
 
 
-    train_and_save_clf.main_exec(fn='trainable_raw_'+uniqueID+'.txt',level=testTrainingLevel,seqflag=1)
+    train_and_save_clf.main_exec(fn='trainable_raw_'+str(uniqueID)+'.txt',level=testTrainingLevel,seqflag=1)
     print '\n*** Finished [train_and_save_clf for seq]'
 
 
@@ -124,7 +124,7 @@ def main_exec(CathDomainSeqsATOM='CathDomainSeqs.ATOM.v4.0.0',
 
     collection.update({'droppedfam':familyToDrop},{ '$set': {'RCCacc':_ACC_RCC,
                                                             'SEQacc':_ACC_SEQ,
-                                                            'combLength':combLength,
+                                                            'combLength':str(combLength),
                                                             'aaGroupingList':aaGroupingList,
                                                             '_exectimesecs':_exectimesecs} },**{'upsert':True})
 
