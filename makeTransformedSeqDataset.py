@@ -51,7 +51,7 @@ def main_exec(FILENAME='CathDomainSeqs.ATOM.v4.0.0',COMBLENGTH=2,SKIPCLASS='3_20
 	transformedSeqs = _seqVectorizer.fit_transform(seqs)
 	pickle.dump( _seqVectorizer , open( "seqVectorizerObj.p", "wb" ) )
 
-	OUTFILENAME = 'transformedSeqDataset_' + COMBLENGTH + '.txt'
+	OUTFILENAME = 'transformedSeqDataset_' + str(COMBLENGTH) + '.txt'
 	fout = open(OUTFILENAME,'w')
 
 	for i in xrange(len(transformedSeqs)):
