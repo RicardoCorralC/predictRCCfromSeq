@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import computeACCdroppingFamily
+from random import shuffle
 
 MONGODB_URI = 'mongodb://rcorral:mongolabpass12483@ds043022.mongolab.com:43022/rccvsseqaccs'
 collection_name = 'dropedclassaccs'
@@ -12,7 +13,9 @@ def get_hs(cathfile='CATHFINAL.txt'):
         ll = l.strip().split(',')
         _h = ll[-1]
         hs.add(_h)
-    return list(hs)
+    hs = list(hs)[:]
+    shuffle(hs)
+    return hs
 
 def run_experiment(hslist=[]):
     print '\nopening DB connection...'
