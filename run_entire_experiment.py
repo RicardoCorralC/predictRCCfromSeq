@@ -1,9 +1,10 @@
 from pymongo import MongoClient
 import computeACCdroppingFamily
 from random import shuffle
+import settings
 
-MONGODB_URI = 'mongodb://rcorral:mongolabpass12483@ds043022.mongolab.com:43022/rccvsseqaccs'
-collection_name = 'dropedclassaccs'
+MONGODB_URI = settings.MONGODB_URI
+collection_name = settings.collection_name
 
 
 
