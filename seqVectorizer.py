@@ -2,21 +2,36 @@ import itertools
 from collections import Counter
 import numpy as np
 import string
+import shelve
 
+
+SEQVECTORIZERS = shelve.open('SEQvectorizers')
+
+
+def loader(aaGroupingList='F_Ic4list',comblength=2,scaleFactor=1.5,verbose=False,load_serialize=True):
+    object_id = '_'.join(map(str,[aaGroupingList,comblength,scaleFactor]))
+    if object_id in SEQVECTORIZERS:
+        print 'LOADING'
+        return SEQVECTORIZERS[object_id]
+    else:
+        return seqVectorizer(comblength=comblength,verbose=True)
 
 class seqVectorizer(object):
 
-    def __init__(self,aaGroupingList='F_Ic4list',comblength=5,scaleFactor=1.5,verbose=False):
+    def __init__(self,aaGroupingList='F_Ic4list',comblength=5,scaleFactor=1.5,verbose=False,load_serialize=True):
         """
-        Arguments initializes variables used by various functions, nevertheles, 
-        each member function can be called statical if needed with another arguments. 
-        
+        Arguments initializes variables used by various functions, nevertheles,
+        each member function can be called statical if needed with another arguments.
+
         Keyword arguments:
-        normalAAslist -- Each element is a string with aminoacids to be considered as equivalent. 
+        normalAAslist -- Each element is a string with aminoacids to be considered as equivalent.
                             Ordering is not important.
                             If a string, it is considered as a key for internal aaLmapsDict.
         comblength    -- The maximum size of combinations to be considered.
         """
+
+        self.object_id = '_'.join(map(str,[aaGroupingList,comblength,scaleFactor]))
+
         #WARNING X aminoacid introduced
         self.aaLmapsDict = {'normalAAslist' : ['A','R','N','D','C','E','Q','G','H','I','L','K','M','F','P','S','T','W','Y','V','X'],
                             'F_Ic4list' : ['AWM','GST','HPY','CVIFL','DNQ','ER','K','X'],
@@ -26,14 +41,16 @@ class seqVectorizer(object):
             self.aaGroupingList = self.aaLmapsDict[aaGroupingList]
         else:
             self.aaGroupingList = aaGroupingList  #Assuming aaGroupingList is already a list mapping
-        
-        self.comblength = comblength    
+
+        self.comblength = comblength
         self.maxElements = []  #The maximum number observed in each component. It is used to normalize final vector.
         self.scaleFactor = scaleFactor  #Factor scaling each of the self.maxElements values for normalizing
         self.epsilon = 0.0001
         self.numAttributes = 0
         self.verbose = verbose
-    
+
+
+
     def dictFromListMapping(self,L):
         """
         Creates a dictionary containing the mapping depicted in list L
@@ -63,17 +80,17 @@ class seqVectorizer(object):
             for j in xrange(len(seq)-i):
                 strKey = ''.join(sorted(self.mapSeq(seq[j:j+i],dictmap)))
                 combsCounter[strKey] += 1
-            
+
         return combsCounter
-    
+
     def iterAACombs(self,n,alfabet):
         """
         returns a list with all combinations of aminoacids from length 2 to n
-        """    
+        """
         AAs = alfabet
         AAcombsList = []
         for i in xrange(2,n+1):
-            for combs in itertools.combinations_with_replacement(AAs,i): #itertools.product(AAs, repeat=i): 
+            for combs in itertools.combinations_with_replacement(AAs,i): #itertools.product(AAs, repeat=i):
                 yield ''.join(sorted(combs))
 
 
@@ -101,8 +118,12 @@ class seqVectorizer(object):
             self.maxElements.append(tmpf)
             f = float(tmpf*self.scaleFactor+self.epsilon)
             X[:,i] = np.multiply(X[:,i],(1/f))
+
+        #Object persistence
+        SEQVECTORIZERS[self.object_id] = self
+
         return X
-        
+
     def transform(self,seqs):
         """
         Transform raw sequences into attribute vectors
@@ -114,16 +135,17 @@ class seqVectorizer(object):
         for i in xrange(self.numAttributes):
             f = float(self.maxElements[i]*self.scaleFactor+self.epsilon)
             X[:,i] = np.multiply(X[:,i],(1/f))
-        return X    
+        return X
 
-def main():    
-    _seqVectorizer = seqVectorizer(comblength=2,verbose=True)
+def main():
+
+    #_seqVectorizer = seqVectorizer(comblength=2,verbose=True)
+    _seqVectorizer = loader(comblength=3,verbose=True)
     a = ['MGQPGNGSAFLLAPNGSHAPDHDVTQERDEVWVVGMGIVMSLIVLAIVFGNVLVITAIAKHVQNLSQVEQDGRTGHGLRRSSKFCLKEHKALKTLGIIMGTFTLCWLPFFIVNIVHVIQD',
          'GEWQLVLHVWAKVEADVAGHGQDILIRLFKSHPETLEKFDRFKHLKTEAEMKASEDLKKAGVTVLTALGAILKKKGHHEAELKPLAQSHATKHKIPIKYLEFISEAIIHVLHSRHPGNFGADAQGAMNKALELFRKDIAAKYKELGYQ']
     print _seqVectorizer.fit_transform(a)
     c = ['VFKDGGFTSNDRSVRRYAIRKVLRQMDLGAELGAKTLVLWGGREGAEYDSAKDVSAALDRYREALNLLAQYSEDRGYGLRFAIEPKPNQPRGDILLPTAGHAIAFVQELERPELFGINPETGHEQMSNL']
     print _seqVectorizer.transform(c)
-    
+
 if __name__== '__main__':
     main()
-
