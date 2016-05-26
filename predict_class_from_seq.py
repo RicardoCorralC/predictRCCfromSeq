@@ -35,7 +35,7 @@ def main_exec(seqsFN):
     print transformed_seqs
 
     predicted_classes_SEQ = _vClassFromSEQ.predict(transformed_seqs)
-    print predicted_classes
+    print predicted_classes_SEQ
 
     predicted_vectors = _v26FS.predict(transformed_seqs)
     print predicted_vectors
