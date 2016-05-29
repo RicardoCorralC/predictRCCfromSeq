@@ -1,7 +1,9 @@
-import sys
 import cPickle as pickle
+import sys
+
 import seqVectorizer
 from vect26FromSeq import vect26FromSeq
+
 
 def main_exec(seqsFN):
 
@@ -15,16 +17,19 @@ def main_exec(seqsFN):
     _vClassFromSEQ = pickle.load(pkl_class_predictor)
     print '*** v26ClassPredictorSEQObj LOADED'
 
+    print '*** loading v26FSObj...'
+    pkl_v26_predictor = open('v26FSObj.p', 'rb')
+    _v26FS = pickle.load(pkl_v26_predictor)
+    print '*** v26ClassPredictorSEQObj LOADED'
 
     print '*** loading v26ClassPredictorObj...'
     pkl_class_predictor = open('v26ClassPredictorObj.p', 'rb')
     _vClassFrom26 = pickle.load(pkl_class_predictor)
-    print '*** v26ClassPredictorObj LOADED'
-
+    print '*** v26FSObj LOADED'
 
     domainnames, seqs = [], []
 
-    fin = open(seqsFN,'r')
+    fin = open(seqsFN, 'r')
     for l in fin:
         l = l.strip().split(',')
         domname, seq = l[0], l[1]
@@ -43,16 +48,15 @@ def main_exec(seqsFN):
     predicted_classes = _vClassFrom26.predict(predicted_vectors)
     print predicted_classes
 
-
-    for d,cs,cv in zip(domainnames,predicted_classes_SEQ,predicted_classes):
+    for d, cs, cv in zip(domainnames, predicted_classes_SEQ,
+                         predicted_classes):
         print d, cs, cv
-
-
 
 
 def main():
     #SEQSFN = sys.argv[1]
     main_exec(seqsFN='CASPSEQS.txt')
+
 
 if __name__ == '__main__':
     main()
